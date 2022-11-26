@@ -43,7 +43,14 @@ def server_program():
 
                 data = input('>')
 
-                conn.send(data.encode())
+                if data.lower().strip() != '/q':
+
+                        conn.send(data.encode())
+
+                elif data.lower().strip() == '/q':
+
+                        break
+
 
         conn.close()
 
