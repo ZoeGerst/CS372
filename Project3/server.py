@@ -1,7 +1,7 @@
 #Zoe Gerst
 #11/27/2022
 #CS 372
-#Project 3
+#Project 3: Server Socket
 #Works cited:
 #https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 
@@ -22,18 +22,26 @@ def server_program():
 
         conn, address = server_socket.accept()
 
-        print("Connection from: " + str(address))
+#       print("Server listening on: localhost on " + port)
+
+        print("Connected by " + str(address))
+
+        print("Waiting for message")
+
+        print("Type /q to quit")
+        print("Enter message to send...")
 
         while True:
 
                 data = conn.recv(1024).decode()
 
-                if not data:
+				if not data:
 
                         break
 
-                print("from connected user: " + str(data))
-                data = input(' -> ')
+                print(str(data))
+
+                data = input('>')
 
                 conn.send(data.encode())
 

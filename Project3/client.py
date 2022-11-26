@@ -6,7 +6,6 @@
 #https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 
 
-
 import socket
 
 def client_program():
@@ -17,17 +16,22 @@ def client_program():
         client_socket = socket.socket()
         client_socket.connect((host, port))
 
-        message = input(" -> ")
+#       print("Connected to: localhost on port: " + port)
 
-        while message.lower().strip() != 'bye':
+        print("Type /q to quit")
+        print("Enter message to send...")
+
+        message = input(">")
+
+        while message.lower().strip() != '/q':
 
                 client_socket.send(message.encode())
 
                 data = client_socket.recv(1024).decode()
 
-                print('Received from server: ' + data)
+                print(data)
 
-                message = input(" -> ")
+                message = input(">")
 
         client_socket.close()
 
