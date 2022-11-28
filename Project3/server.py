@@ -11,49 +11,58 @@ import socket
 
 def server_program():
 
-        host = socket.gethostname()
-        port = 5000
+	#connect to host and address port
+	host = socket.gethostname()
+	port = 5000
 
-        server_socket = socket.socket()
+	server_socket = socket.socket()
 
-        server_socket.bind((host, port))
+	server_socket.bind((host, port))
 
-        server_socket.listen(2)
+	#listen for client
+	server_socket.listen(2)
 
-        conn, address = server_socket.accept()
+	conn, address = server_socket.accept()
 
-#       print("Server listening on: localhost on " + port)
+	#tells user what host and port number they are on
+	print("Server listening on: localhost on port: " + str(port))
 
-        print("Connected by " + str(address))
+	#prints IP address
+	print("Connected by " + str(address))
 
-        print("Waiting for message")
+	print("Waiting for message")
 
-        print("Type /q to quit")
-        print("Enter message to send...")
+	print("Type /q to quit")
+	print("Enter message to send...")
 
-        while True:
+	#if the server correctly accepts the client
+	while True:
 
-                data = conn.recv(1024).decode()
+		#receives messages from client
+		data = conn.recv(1024).decode()
 
-				if not data:
+		#if the messages are not received
+		if not data:
+			
+			break
 
-                        break
+		print(str(data))
 
-                print(str(data))
+		data = input('>')
 
-                data = input('>')
+		#if messages is not /q then the server will continue to send messages to client
+		if data.lower().strip() != '/q':
 
-                if data.lower().strip() != '/q':
+			conn.send(data.encode())
 
-                        conn.send(data.encode())
+		#Ends program if the user types /q
+		elif data.lower().strip() == '/q':
 
-                elif data.lower().strip() == '/q':
+			break
+			
 
-                        break
-
-
-        conn.close()
+	conn.close()
 
 if __name__ == '__main__':
-
-        server_program()
+	
+	server_program()

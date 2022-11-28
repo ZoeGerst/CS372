@@ -10,31 +10,37 @@ import socket
 
 def client_program():
 
-        host = socket.gethostname()
-        port = 5000
+	#needs to run on the same program as server
+	host = socket.gethostname()
+	port = 5000
 
-        client_socket = socket.socket()
-        client_socket.connect((host, port))
+	client_socket = socket.socket()
+	client_socket.connect((host, port))
 
-#       print("Connected to: localhost on port: " + port)
+	#shows what host and port it is connected to
+	print("Connected to: localhost on port: " + str(port))
 
-        print("Type /q to quit")
-        print("Enter message to send...")
+	print("Type /q to quit")
+	print("Enter message to send...")
 
-        message = input(">")
+	message = input(">")
 
-        while message.lower().strip() != '/q':
+	#While the server's message is not equal to /q
+	while message.lower().strip() != '/q':
+		
+		#first to send a messages
+		client_socket.send(message.encode())
 
-                client_socket.send(message.encode())
+		#server's response
+		data = client_socket.recv(1024).decode()
 
-                data = client_socket.recv(1024).decode()
+		print(data)
 
-                print(data)
+		#new message
+		message = input(">")		
 
-                message = input(">")
-
-        client_socket.close()
+	client_socket.close()
 
 if __name__ == '__main__':
 
-        client_program()
+	client_program()
